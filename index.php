@@ -2,16 +2,14 @@
 <?php
 include ('.ht_cred.php');
 
-//$sname = 'index.php';
-$sname = 'index_dev.php';
+$sname = 'index.php';
 $cssname = 'lischde.css';
 $add = 'hinzu';
 $mehr = 'einfuegen';
 $gek = 'gekauft';
 $art = 'artkl';
 $amnt = 'mng';
-
-$aktion = 0; // Entscheiden, ob die Liste gezeigt werden soll oder nicht
+$artikel = ''; //Init
 
 function query($par, $partype)
 {
@@ -69,27 +67,37 @@ if ($conn->connect_error)
 $p1=query($add,'int');
 $p2=query($gek,'int');
 $p3=query($mehr,'int');
+$artikel=query($art,'string');
+$menge=query($amnt,'int');
 $today=date('Y.m.d');
 
-
-if ($p3 == -1) // POST Methode aktiviert, neue Einträge zum Hinzufügen
+echo "Artikel: ".$artikel;
+// Nach plötzlicher Verhaltenänderung der Form
+if ($p3 == -1 || $artikel != '' ) // POST Methode aktiviert, neue Einträge zum Hinzufügen
 {
 	
-  //$artikel=parse($art,'string');
-  // unsicher, aber derzeit der einzige Weg, der funktioniert
-  $artikel=$_POST[$art];
-  //$menge=parse($amnt,'int');
-  $menge=$_POST[$amnt];
+  if ($p3 == -1 ) // old way
+  {
+    //$artikel=parse($art,'string');
+    // unsicher, aber derzeit der einzige Weg, der funktioniert
+    $artikel=$_POST[$art];
+    //$menge=parse($amnt,'int');
+    $menge=$_POST[$amnt];
+  }
+
   if ($menge == "") // Eingabefehler verhindern
 		$menge=1;
 
-  $today=date('d.m.Y');
-	$sql = "INSERT INTO $table (Titel, Menge, Aktiv, LastUsed, Wieoft) VALUES ('$artikel', $menge, 1,'$today',1)";
+  echo "Daten".$artikel."-".$menge;
 
-	if ($conn->query($sql) === FALSE) 
-	{
-	  echo "Error: " . $sql . "<br>" . $conn->error;
-	}
+  $today=date('d.m.Y');
+	
+  $sql = "INSERT INTO $table (Titel, Menge, Aktiv, LastUsed, Wieoft) VALUES ('$artikel', $menge, 1,'$today',1)";
+
+  if ($conn->query($sql) === FALSE) 
+  {
+    echo "Error: " . $sql . "<br>" . $conn->error;
+  }
 }
 
 if ($p3 > 0) // vorhandener Eintrag hinzugefügt
@@ -151,7 +159,7 @@ echo "<Kopf><H1><a href='".$sname."'>Liste aktualisieren</a></h1>";
 if ($p1 != 1 ) //Show
   echo "<H2><a href='".$sname."?" . $add . "=1'>Artikel hinzufügen</a></H2></Kopf>";
 else
-  echo "</Kopf><Form><form action='".$sname."?".$mehr."=-1' method='post'> <p>Artikel: <input type='text' name='".$art."' </p> <p>Menge: <input type='int' name='".$amnt."' /> </p> <input type='submit'  /></p> </form></Form>";
+  echo "</Kopf><Formular><form action='".$sname."?".$mehr."=-1' method='post'> <p>Artikel: <input type='text' name='".$art."' /> </p> <p>Menge: <input type='int' name='".$amnt."' /> </p> <input type='submit' /> </form></Formular>";
  
 echo "<Liste>";
 if ($result->num_rows > 0) 
@@ -165,7 +173,7 @@ if ($result->num_rows > 0)
 		else
 			echo $mehr . "=" . $row["id"] . "'>";
  		if ($p1 != 1) // Show
-			echo "Gekauft</a> </li>";
+			echo "Erledigt</a> </li>";
 		else
 			echo "Kaufen</a> - ". $row["Wieoft"] . "mal gekauft, das letzte Mal am ".$row["LastUsed"] . " </li>";
   }
