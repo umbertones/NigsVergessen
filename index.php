@@ -71,24 +71,18 @@ $artikel=query($art,'string');
 $menge=query($amnt,'int');
 $today=date('Y.m.d');
 
-echo "Artikel: ".$artikel;
-// Nach plötzlicher Verhaltenänderung der Form
-if ($p3 == -1 || $artikel != '' ) // POST Methode aktiviert, neue Einträge zum Hinzufügen
+
+if ($p3 == -1 ) // POST Methode aktiviert, neue Einträge zum Hinzufügen
 {
 	
-  if ($p3 == -1 ) // old way
-  {
-    //$artikel=parse($art,'string');
-    // unsicher, aber derzeit der einzige Weg, der funktioniert
-    $artikel=$_POST[$art];
-    //$menge=parse($amnt,'int');
-    $menge=$_POST[$amnt];
-  }
+  //$artikel=parse($art,'string');
+  // unsicher, aber derzeit der einzige Weg, der funktioniert
+  $artikel=$_POST[$art];
+  //$menge=parse($amnt,'int');
+  $menge=$_POST[$amnt];
 
   if ($menge == "") // Eingabefehler verhindern
 		$menge=1;
-
-  echo "Daten".$artikel."-".$menge;
 
   $today=date('d.m.Y');
 	
