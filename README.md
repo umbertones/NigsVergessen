@@ -15,7 +15,7 @@ Dann "Artikel hinzufügen", mit dem man - ach, ach was - einen neuen Artikel in 
 Man trägt Name und Menge ein und clickt auf "Senden", schon taucht der Artikel in der Einkaufsliste auf. So kann jeder mit Zugriff auf die Seite Artikel eintragen.
 Artikel, die schon mal gekauft wurden, aber aktuell nicht auf der Liste sind, kann man unten durch einen Click auswählen. Je häufiger der Artikel bereits gekauft wurde, desto weiter oben steht er. Parallel wird das Datum des letzten Einkaufs in der Datenbank geführt.
 
-Im Supermarkt hakt man die Artikel dann mit einem Click auf "Gekauft" von der Liste ab.
+Im Supermarkt hakt man die Artikel dann mit einem Click auf "Erledigt" von der Liste ab.
 
 TODO:
 - fehlerhafte Einträge in der Datenbank editieren (Klassiker: Mahmedium statt Magnesium)
