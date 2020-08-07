@@ -71,15 +71,15 @@ $artikel=query($art,'string');
 $menge=query($amnt,'int');
 $today=date('Y.m.d');
 
+//echo "Debug - Signal: ".$p3;
 
 if ($p3 == -1 ) // POST Methode aktiviert, neue Einträge zum Hinzufügen
 {
 	
-  //$artikel=parse($art,'string');
-  // unsicher, aber derzeit der einzige Weg, der funktioniert
-  $artikel=$_POST[$art];
-  //$menge=parse($amnt,'int');
-  $menge=$_POST[$amnt];
+  //echo "Vorher: ".$_POST[$art];
+  $artikel=filter_var($_POST[$art],FILTER_SANITIZE_STRING);
+  //echo "Nachher: ".$artikel;
+  $menge=filter_var($_POST[$amnt],FILTER_SANITZE_NUMBER);
 
   if ($menge == "") // Eingabefehler verhindern
 		$menge=1;
