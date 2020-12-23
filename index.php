@@ -2,7 +2,7 @@
 <?php
 include ('.ht_cred.php');
 
-$sname = 'index.php';
+$sname = 'index_dev.php';
 $cssname = 'lischde.css';
 $add = 'hinzu';
 $mehr = 'einfuegen';
@@ -43,14 +43,14 @@ function parse($par, $partype) // funktioniert noch nicht!!!
 }
 
 
-echo "<HTML><HEAD><TITLE>Einkaufsliste 'Nigs vergessen'</TITLE>";
+echo "<!DOCTYPE HTML><HTML lang='de'><HEAD><TITLE>Einkaufsliste 'Nigs vergessen'</TITLE>";
 echo "<link rel='stylesheet' href='".$cssname."'></HEAD><BODY>";
 
 
 // Zeige alle Elemente der Datenbank, die aktiv sind
 // Hinzufuegen: entweder aus sortierter Liste der nicht aktiven oder neuer Eintrag
-// Gekauft: aktiv-bit loeschen, Datum aktualisieren, Wieoft eins erhöhen, Menge wieder auf 1
-// Menge erhöhen
+// Gekauft: aktiv-bit loeschen, Datum aktualisieren, Wieoft eins erhöhen, 
+// Menge wird gerade nicht benutzt
 
 // Create connection
 $conn = new mysqli($dbserver, $user, $pw, $database);
@@ -69,7 +69,7 @@ $p1=query($add,'int');
 $p2=query($gek,'int');
 $p3=query($mehr,'int');
 $artikel=query($art,'string');
-$menge=query($amnt,'int');
+$menge=query($amnt,'int'); // wird nicht mehr benutzt
 $today=date('Y.m.d');
 
 //echo "Debug - Signal: ".$p3;
@@ -80,10 +80,10 @@ if ($p3 == -1 ) // POST Methode aktiviert, neue Einträge zum Hinzufügen
   //echo "Vorher: ".$_POST[$art];
   $artikel=filter_var($_POST[$art],FILTER_SANITIZE_STRING);
   //echo "Nachher: ".$artikel;
-  $menge=filter_var($_POST[$amnt],FILTER_SANITZE_NUMBER);
+  //$menge=filter_var($_POST[$amnt],FILTER_SANITZE_NUMBER);
 
-  if ($menge == "") // Eingabefehler verhindern
-		$menge=1;
+  //if ($menge == "") // Eingabefehler verhindern
+	$menge=1; // Menge deaktiviert, immer 1
 
   $today=date('Y.m.d');
 	
@@ -121,14 +121,7 @@ if ($p3 > 0) // vorhandener Eintrag hinzugefügt
 	  echo "Error increasing usage: " . $conn->error;
 	}
 
-  // Datum aktualisieren 
-
-	$sql = "UPDATE $table SET LastUsed='$today' WHERE id=$p3";
-  if ($conn->query($sql) === FALSE) 
-	{
-	  echo "Error updating LastUsage: " . $conn->error;
-	}
-
+ 
 }	
 
 if ($p2 > 0) // Eintrag aus Liste gekauft
@@ -139,10 +132,17 @@ if ($p2 > 0) // Eintrag aus Liste gekauft
 	{
 	  echo "Error deactivating record: " . $conn->error;
 	}
+  // Datum aktualisieren 
+
+	$sql = "UPDATE $table SET LastUsed='$today' WHERE id=$p2";
+  if ($conn->query($sql) === FALSE) 
+	{
+	  echo "Error updating LastUsage: " . $conn->error;
+	}
 }
 
 // Aktuelle Liste ausgeben
-if ($p1 == 1) // Add
+if ($p1 > 0) // Add/Statistik
 {
 	$top_sql = "SELECT id, Titel, Menge, Aktiv, LastUsed, Wieoft FROM $table WHERE Aktiv=0 ORDER BY Wieoft DESC,Titel ASC";
  	$sql = "SELECT id, Titel, Menge, Aktiv, LastUsed, Wieoft FROM $table WHERE Aktiv=0 ORDER BY Titel ASC";
@@ -154,14 +154,18 @@ else // Show
 
 $result = $conn->query($sql);
   
-echo "<Kopf><H1><a href='".$sname."'>Liste aktualisieren</a></h1>";
+echo "<div class='Kopf'><H1><a href='".$sname."'>Liste aktualisieren</a></h1>";
 
-if ($p1 != 1 ) //Show
-  echo "<H2><a href='".$sname."?" . $add . "=1'>Artikel hinzufügen</a></H2></Kopf>";
+if ($p1 != 1 ) //Show and Statistik
+{
+  echo "<H2><a href='".$sname."?" . $add . "=1'>Artikel hinzufügen</a></H2>";
+  echo "<H2><a href='".$sname."?" . $add . "=2'>Statistik anzeigen</a></h2></div>"; 
+}
 else
-  echo "</Kopf><Formular><form action='".$sname."?".$mehr."=-1' method='post'> <p>Artikel: <input type='text' name='".$art."' /> </p> <p>Menge: <input type='int' name='".$amnt."' /> </p> <input type='submit' /> </form></Formular>";
+  //echo "</Kopf><Formular><form action='".$sname."?".$mehr."=-1' method='post'> <p>Artikel: <input type='text' name='".$art."' /> </p> <p>Menge: <input type='int' name='".$amnt."' /> </p> <input type='submit' /> </form></Formular>";
+  echo "</div><div class='Formular'><form action='".$sname."?".$mehr."=-1' method='post'> <p>Artikel: <input type='text' name='".$art."' /> </p> <input type='submit' value='Senden' /> </form></div>";
  
-echo "<Liste>";
+echo "<div class='Liste'>";
 if ($result->num_rows > 0) 
 {
   if ($p1 == 1) //Add
@@ -173,33 +177,60 @@ if ($result->num_rows > 0)
 	    $row = $top_result->fetch_assoc();
 	    if ($row != NULL) // sind noch Daten drin
 	    {
-		    echo "<li>" . $row["Menge"] . " mal " . $row["Titel"] . " - <a class='largelink' href='".$sname."?";
+		    echo "<a class='linkz5' href='".$sname."?";
 				if ($p1 != 1 ) // Show
 					echo $gek . "=" . $row["id"] . "'>";
 				else
 					echo $mehr . "=" . $row["id"] . "'>";
 		 		if ($p1 != 1) // Show
-					echo "Erledigt</a> </li>";
+					echo $row["Titel"] ."&nbsp;<span id='Klein'>".$row["LastUsed"]."</span> </a>&nbsp;-&nbsp;";
 				else
-					echo "Kaufen</a> - ". $row["Wieoft"] . "mal gekauft, das letzte Mal am ".$row["LastUsed"] . " </li>";
+					//echo $row["Titel"] ."(". $row["Wieoft"] . "x, last: ".$row["LastUsed"] . ") </a> - ";
+					echo $row["Titel"] . " </a>&nbsp;-&nbsp;";
 	     }
 	  }
   }
-  // output all alphabetically data of each row
   if ($p1 == 1) // Nur bei Add
   	echo "<H3>Alle Artikel in alphabetischer Reihenfolge</H3>";
+  // output all alphabetically data of each row
   while($row = $result->fetch_assoc()) 
   {
-    echo "<li>" . $row["Menge"] . " mal " . $row["Titel"] . " - <a class='largelink' href='".$sname."?";
-		if ($p1 != 1 ) // Show
-			echo $gek . "=" . $row["id"] . "'>";
-		else
-			echo $mehr . "=" . $row["id"] . "'>";
- 		if ($p1 != 1) // Show
-			echo "Erledigt</a> </li>";
-		else
-			echo "Kaufen</a> - ". $row["Wieoft"] . "mal gekauft, das letzte Mal am ".$row["LastUsed"] . " </li>";
-  }
+    if ($p1 == 2) // Statistik
+    {
+    	echo "<li>";
+    	echo $row["Titel"] ."(". $row["Wieoft"] . "x, last: ".$row["LastUsed"] .")";
+    	echo "</li>";
+    }
+    else
+    {
+		  // Link
+		  echo "<a class='";
+		  switch ($row["Wieoft"])
+		  {
+		  	case 0:
+		  	case 1:
+		  		echo "linkz2";
+		  		break;
+		  	case 2:
+		  	case 3:
+		  		echo "linkz3";
+		  		break;
+		  	case 4:
+		  	case 5:
+		  		echo "linkz4";
+		  		break;
+		  	default:
+		  		echo "linkz5";
+		  }
+		  echo "' href='".$sname."?";
+			if ($p1 == 0 ) // Show
+				echo $gek . "=" . $row["id"] . "'>";
+			else
+				echo $mehr . "=" . $row["id"] . "'>";
+	 		// Linktext
+			echo $row["Titel"] ." </a>&nbsp;-&nbsp;";
+		}
+	}
 
 } 
 else 
@@ -209,5 +240,5 @@ else
 
 // Aufräumen
 $conn->close();
-echo "</Liste></BODY></HTML>";
+echo "</div></BODY></HTML>";
 

@@ -3,56 +3,81 @@ body
 	margin: 10px auto;
 	max-width: 40em;
 	font-family: sans-serif;
-	font-size: 2.5em;
+	/* font-size: 2.5em; */
 	color: #333333;
 	display: grid;
 	padding: 5px;
 	grid-template-columns: repeat(auto-fill, 40em);
 }
 
-Liste
+.Liste
 {
 	grid-column: 1/-1;
 	grid-row: span 2;
 }
 
-Kopf
-Formular
-Liste
+.Kopf
+.Formular
+.Liste
 {
 	border-radius: 0px 0.5em 0.5em;
 	padding: 10px;
 	margin: 10px;
 }
 
-Kopf
+.Kopf
 {
 	background: #F1F3F4;
 	border-color: #d5d5d5;
 }
 
-Formular
+.Formular
 {
 	background: #fffbf0;
 	border-color: #e7c157;
 	font-size: 3em;
 }
 
-Liste
+.Liste
 {
 	background: #ffede0;
 	border-color: #df6c20;
 }
 
+#Klein
+{
+	font-size: 0.5em;
+}
+
 input {
 	border: 2px solid red;
 	border-radius: 4px;
-	width: 50%;
+	width: 70%;
 	font-size: 1em;
 }
 
-a.largelink
+a.linkz5
 {
-	font-size: 1.8em;
+	font-size: 3em;
+}
+
+a.linkz4
+{
+	font-size: 2.7em;
+}
+
+a.linkz3
+{
+	font-size: 2.4em;
+}
+
+a.linkz2
+{
+	font-size: 2em;
+}
+
+a.linkz1
+{
+	font-size: 1em;
 }
 
