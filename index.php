@@ -141,13 +141,23 @@ if ($p2 > 0) // Eintrag aus Liste gekauft
 	}
 }
 
+// Maxwert für Fontgröße ermitteln
+$maxSQL = "SELECT MAX(Wieoft) AS max FROM $table;";
+$result= $conn->query($maxSQL);
+if ($result === FALSE)
+	  echo "Error calculating highest buy: " . $conn->error;
+$row = $result->fetch_assoc();
+$highest=$row['max'];
+
 // Aktuelle Liste ausgeben
-if ($p1 > 0) // Add/Statistik
+if ($p1 == 1) // Add
 {
 	$top_sql = "SELECT id, Titel, Menge, Aktiv, LastUsed, Wieoft FROM $table WHERE Aktiv=0 ORDER BY Wieoft DESC,Titel ASC";
  	$sql = "SELECT id, Titel, Menge, Aktiv, LastUsed, Wieoft FROM $table WHERE Aktiv=0 ORDER BY Titel ASC";
 	$top_result = $conn->query($top_sql);
 }
+else if ($p1 == 2) // Statistik
+ 	$sql = "SELECT id, Titel, Menge, Aktiv, LastUsed, Wieoft FROM $table ORDER BY Wieoft DESC, Titel ASC";
 else // Show
  	$sql = "SELECT id, Titel, Menge, Aktiv, LastUsed, Wieoft FROM $table WHERE Aktiv=1 ORDER BY Wieoft DESC, Titel ASC";
 
@@ -198,14 +208,16 @@ if ($result->num_rows > 0)
     if ($p1 == 2) // Statistik
     {
     	echo "<li>";
-    	echo $row["Titel"] ."(". $row["Wieoft"] . "x, last: ".$row["LastUsed"] .")";
+    	echo $row["Titel"] ." (". $row["Wieoft"] . "x, last: ".$row["LastUsed"] .")";
     	echo "</li>";
     }
     else
     {
 		  // Link
 		  echo "<a class='";
-		  switch ($row["Wieoft"])
+		  // Rechnen
+		  $fnsize=round(5*$row["Wieoft"]/$highest);
+		  switch ($fnsize)
 		  {
 		  	case 0:
 		  	case 1:
@@ -216,9 +228,9 @@ if ($result->num_rows > 0)
 		  		echo "linkz3";
 		  		break;
 		  	case 4:
-		  	case 5:
 		  		echo "linkz4";
 		  		break;
+		  	case 5:
 		  	default:
 		  		echo "linkz5";
 		  }
