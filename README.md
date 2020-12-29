@@ -16,7 +16,7 @@ Man trägt den Namen ein und clickt auf "Senden", schon taucht der Artikel in de
 Artikel, die schon mal gekauft wurden, aber aktuell nicht auf der Liste sind, kann man unten durch einen Click auswählen. Oben stehen eine Anzahl von Top-Artikeln (Zahl wird in der Variable topanz festgelegt), darunter dann alle Artikel in alphabetischer Reihenfolge. Je häufiger der Artikel gekauft wurde, desto größer wird er dargestellt. Parallel wird das Datum des letzten Einkaufs in der Datenbank geführt.
 Unter dem Link "Statistik anzeigen" kann man schauen wie oft man welchen Artikel gekauft hat und wann das letzte Mal war. 
 
-Im Supermarkt hakt man die Artikel dann mit einem Click auf "Gekauft" von der Liste ab. Dabei wird das Datum, wann er gekauft wurde, aktualisiert.
+Im Supermarkt hakt man die Artikel dann mit einem Click auf den Artikel von der Liste ab. Dabei wird das Datum, wann er gekauft wurde, aktualisiert.
 
 TODO:
 - fehlerhafte Einträge in der Datenbank editieren (Klassiker: Mahmedium statt Magnesium)
