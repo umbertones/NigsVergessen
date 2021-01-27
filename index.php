@@ -2,7 +2,7 @@
 <?php
 include ('.ht_cred.php');
 
-$sname = 'index_dev.php';
+$sname = 'index.php';
 $cssname = 'lischde.css';
 $add = 'hinzu';
 $mehr = 'einfuegen';
@@ -157,7 +157,7 @@ if ($p1 == 1) // Add
 	$top_result = $conn->query($top_sql);
 }
 else if ($p1 == 2) // Statistik
- 	$sql = "SELECT id, Titel, Menge, Aktiv, LastUsed, Wieoft FROM $table ORDER BY Wieoft DESC, Titel ASC";
+ 	$sql = "SELECT id, Titel, Menge, Aktiv, LastUsed, Wieoft FROM $table ORDER BY LastUsed DESC, Titel ASC";
 else // Show
  	$sql = "SELECT id, Titel, Menge, Aktiv, LastUsed, Wieoft FROM $table WHERE Aktiv=1 ORDER BY Wieoft DESC, Titel ASC";
 
@@ -187,7 +187,7 @@ if ($result->num_rows > 0)
 	    $row = $top_result->fetch_assoc();
 	    if ($row != NULL) // sind noch Daten drin
 	    {
-		    echo "<a class='linkz5' href='".$sname."?";
+		    echo "<a class='linkz4' href='".$sname."?";
 				if ($p1 != 1 ) // Show
 					echo $gek . "=" . $row["id"] . "'>";
 				else

@@ -1,45 +1,46 @@
 body
 {
-	margin: 10px auto;
-	max-width: 40em;
+	margin: 5px auto;
+	max-width: 100%;
+	height: auto;
 	font-family: sans-serif;
 	/* font-size: 2.5em; */
 	color: #333333;
-	display: grid;
+	/*display: grid; */
 	padding: 5px;
-	grid-template-columns: repeat(auto-fill, 40em);
-}
-
-.Liste
-{
-	grid-column: 1/-1;
-	grid-row: span 2;
+	grid-template-columns: repeat(auto-fill, 10em); 
+	
 }
 
 .Kopf
 .Formular
 .Liste
 {
-	border-radius: 0px 0.5em 0.5em;
+	border-radius: 5px 0.5em 0.5em;
 	padding: 10px;
-	margin: 10px;
+	margin: 5px;
+	font-size: 2em;
 }
 
 .Kopf
 {
 	background: #F1F3F4;
 	border-color: #d5d5d5;
+	font-size: 2em;
 }
 
 .Formular
 {
 	background: #fffbf0;
 	border-color: #e7c157;
-	font-size: 3em;
+	font-size: 2em;
 }
 
 .Liste
 {
+	grid-column: 1/-1;
+	grid-row: span 2;
+	font-size: 2em;
 	background: #ffede0;
 	border-color: #df6c20;
 }
@@ -53,27 +54,27 @@ input {
 	border: 2px solid red;
 	border-radius: 4px;
 	width: 70%;
-	font-size: 1em;
+	font-size: 2em;
 }
 
 a.linkz5
 {
-	font-size: 3em;
+	font-size: 2.5em;
 }
 
 a.linkz4
 {
-	font-size: 2.7em;
+	font-size: 2.1em;
 }
 
 a.linkz3
 {
-	font-size: 2.4em;
+	font-size: 1.7em;
 }
 
 a.linkz2
 {
-	font-size: 2em;
+	font-size: 1.3em;
 }
 
 a.linkz1
