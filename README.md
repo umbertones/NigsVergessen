@@ -11,10 +11,10 @@ Auf einer MYSQL-Datenbank auf dem xAMP-Server muss eine passende Tabelle angeleg
 Auf der Startseite sind zunächst 3 Links.
 
 Ganz oben "Liste aktualisieren", quasi der Home-Button.
-Dann "Artikel hinzufügen", mit dem man - ach, ach was - einen neuen Artikel in die Liste einfügen kann (TODO: ein Konzept für die Menge)
+Dann "Artikel hinzufügen", mit dem man - ach, ach was - einen neuen Artikel in die Liste einfügen kann (TODO: ein Konzept für die Menge). Tippt man Buchstaben ein, wird die Liste entsprechend gefiltert (Danke, AI, auf den Trick wäre ich nie gekommen).
 Man trägt den Namen ein und clickt auf "Senden", schon taucht der Artikel in der Einkaufsliste auf. So kann jeder mit Zugriff auf die Seite Artikel eintragen.
 Artikel, die schon mal gekauft wurden, aber aktuell nicht auf der Liste sind, kann man unten durch einen Click auswählen. Oben stehen eine Anzahl von Top-Artikeln (Zahl wird in der Variable topanz festgelegt), darunter dann alle Artikel in alphabetischer Reihenfolge. Je häufiger der Artikel gekauft wurde, desto größer wird er dargestellt. Parallel wird das Datum des letzten Einkaufs in der Datenbank geführt.
-Unter dem Link "Statistik anzeigen" kann man schauen wie oft man welchen Artikel gekauft hat und wann das letzte Mal war. 
+Unter dem Link "Statistik anzeigen" kann man schauen wie oft man welchen Artikel gekauft hat und wann das letzte Mal war. Man kann von diesen Listen ebenfalls Artikel direkt hinzufügen.
 
 Im Supermarkt hakt man die Artikel dann mit einem Click auf den Artikel von der Liste ab. Dabei wird das Datum, wann er gekauft wurde, aktualisiert.
 
